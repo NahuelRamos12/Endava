@@ -26,6 +26,17 @@ public class Event {
 	
 	public Event() {}
 	
+	public Event(Event event) {
+		this.idEvent = event.getIdEvent();
+		this.name = event.getName();
+		this.type = event.getType();
+		this.date = event.getDate();
+		this.time = event.getTime();
+		this.price = event.getPrice();
+		this.location = event.getLocation();
+		this.description = event.getDescription();
+	}
+
 	public UUID getIdEvent() {
 		return idEvent;
 	}
@@ -73,10 +84,5 @@ public class Event {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	
-	
-	
-	
+	}	
 }

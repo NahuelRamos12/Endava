@@ -1,5 +1,6 @@
 package com.endavel.eventsdava.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +29,23 @@ public class EventService implements IEventService {
 	@Override
 	public Event getEventById(UUID id) throws EventNotFoundException {		
 		return eventsRepository.findById(id).orElseThrow(EventNotFoundException::new);
+	}
+
+	@Override
+	public Event createEvent(Event event) {
+		Event newEvent = new Event(event);
+		return eventsRepository.save(newEvent);
+	}
+
+	@Override
+	public List<Event> getEventsByType(String type) {
+		List<Event> eventsFilterByType = new ArrayList<>();
+		for (Event event : getAllEvents()) {
+			if (event.getType().equals(type)) {
+				eventsFilterByType.add(event);
+			}
+		}
+		return eventsFilterByType;
 	}
 	
 }
