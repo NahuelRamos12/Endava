@@ -36,6 +36,16 @@ public class Event {
 		this.location = event.getLocation();
 		this.description = event.getDescription();
 	}
+	
+	public Event(String name, String type, LocalDate date, LocalTime time, Integer price, String location, String description) {		
+		this.name = name;
+		this.type = type;
+		this.date = date;
+		this.time = time;
+		this.price = price;
+		this.location = location;
+		this.description = description;
+	}
 
 	public UUID getIdEvent() {
 		return idEvent;
