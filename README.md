@@ -27,11 +27,11 @@ Para WSL2 con Ubuntu
 Verificar que esté instalado:
 - $ java -version
 
-2) Set Up Environment Variables \n
-♦ Use the vim text editor to create and open the maven.sh script file in the /etc/profile.d/ directory:
+2) Set Up Environment Variables:
+• Use the vim text editor to create and open the maven.sh script file in the /etc/profile.d/ directory:
 - $ sudo vim /etc/profile.d/maven.sh
 
-♦ Add the following lines to the maven.sh file:
+• Add the following lines to the maven.sh file:
 export JAVA_HOME=/usr/lib/jvm/default-java
 export M2_HOME=/opt/maven
 export MAVEN_HOME=/opt/maven
