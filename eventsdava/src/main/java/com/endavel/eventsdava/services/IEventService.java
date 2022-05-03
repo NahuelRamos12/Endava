@@ -12,4 +12,8 @@ public interface IEventService {
 
 	Event getEventById(UUID id) throws EventNotFoundException;
 
+	Event createEvent(Event event);
+
+	List<Event> getEventsByType(String type);
+
 }

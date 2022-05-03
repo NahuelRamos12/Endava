@@ -26,6 +26,27 @@ public class Event {
 	
 	public Event() {}
 	
+	public Event(Event event) {
+		this.idEvent = event.getIdEvent();
+		this.name = event.getName();
+		this.type = event.getType();
+		this.date = event.getDate();
+		this.time = event.getTime();
+		this.price = event.getPrice();
+		this.location = event.getLocation();
+		this.description = event.getDescription();
+	}
+	
+	public Event(String name, String type, LocalDate date, LocalTime time, Integer price, String location, String description) {		
+		this.name = name;
+		this.type = type;
+		this.date = date;
+		this.time = time;
+		this.price = price;
+		this.location = location;
+		this.description = description;
+	}
+
 	public UUID getIdEvent() {
 		return idEvent;
 	}
@@ -73,10 +94,5 @@ public class Event {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	
-	
-	
-	
+	}	
 }
