@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 import com.endavel.eventsdava.domain.Event;
 import com.endavel.eventsdava.persistance.EventsRepository;
 import com.endavel.eventsdava.services.exceptions.EventNotFoundException;
+import com.endavel.eventsdava.validations.EventsValidations;
 
 @Service
 public class EventService implements IEventService {
 
 	private EventsRepository eventsRepository;
+	private EventsValidations eventsValidations;
 	
 	@Autowired
 	public void setClientRepository(EventsRepository eventsRepository) {
@@ -33,8 +35,14 @@ public class EventService implements IEventService {
 
 	@Override
 	public Event createEvent(Event event) {
-		Event newEvent = new Event(event);
-		return eventsRepository.save(newEvent);
+		if (eventsValidations.isValidName(event.getName()) 
+				&& eventsValidations.isValidType(event.getType()) 
+				&& eventsValidations.isValidLocation(event.getLocation())
+				&& eventsValidations.isValidDescription(event.getDescription()) ) {
+			Event newEvent = new Event(event);
+			return eventsRepository.save(newEvent);
+		}
+		throw new EventNotFoundException();
 	}
 
 	@Override
