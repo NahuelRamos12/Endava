@@ -28,10 +28,10 @@ Verificar que esté instalado:
 - $ java -version
 
 2) Set Up Environment Variables
-1. Use the vim text editor to create and open the maven.sh script file in the /etc/profile.d/ directory:
+♦ Use the vim text editor to create and open the maven.sh script file in the /etc/profile.d/ directory:
 - $ sudo vim /etc/profile.d/maven.sh
 
-2. Add the following lines to the maven.sh file:
+♦ Add the following lines to the maven.sh file:
 export JAVA_HOME=/usr/lib/jvm/default-java
 export M2_HOME=/opt/maven
 export MAVEN_HOME=/opt/maven
