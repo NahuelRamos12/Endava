@@ -6,7 +6,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +32,13 @@ public class Loader {
 		
 		try {
 			respuesta = peticionHttpGet(url);
+			eventsRepository.saveAll(getListEvents(respuesta));
 			System.out.println("La respuesta es:\n" + respuesta);
 		} catch (Exception e) {
 			// Manejar excepción
 			e.printStackTrace();
 		}				
 		
-		eventsRepository.saveAll(null);
 	}
 
 	
@@ -53,7 +56,21 @@ public class Loader {
 		    // Acceder como accedíamos al jsonObject
 		    String name = posibleEvent.getString("name");
 		    String type = posibleEvent.getString("type");
+		    
 		    String dateTime = posibleEvent.getString("dateTime");
+
+		   
+		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		    
+		    	
+		    
+		    LocalDateTime localdatetime = LocalDateTime.parse(dateTime, formatter);
+		    
+		    LocalDate date = localdatetime.toLocalDate();
+		    LocalTime time = localdatetime.toLocalTime();
+		    
+		   		    
+		    
 		    Integer price = posibleEvent.getInt("price");		    
 		    String location = posibleEvent.getString("location");
 		    String description = posibleEvent.getString("description");
@@ -61,11 +78,11 @@ public class Loader {
 		    // Luego de eso podemos crear la clase y obtener los beneficios
 		    // de la POO o usar los datos como nos plazca
 		    
-		    //Event event = new Event(name, type, price, location, description);
+		    Event event = new Event(name, type, date, time,price, location, description);
 
 		   
 		    // Agregar a la lista, solo para ilustrar
-		    //list.add(event);		
+		    list.add(event);		
 		}
 		
 		return list;
