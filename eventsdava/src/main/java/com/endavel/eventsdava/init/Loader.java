@@ -27,86 +27,65 @@ public class Loader {
 	String respuesta = "";
 
 	public Loader(EventsRepository eventsRepository) {
-		super();
 		this.eventsRepository = eventsRepository;
-		
 		try {
-			respuesta = peticionHttpGet(url);
+			respuesta = httpGet(url);
 			eventsRepository.saveAll(getListEvents(respuesta));
 			System.out.println("La respuesta es:\n" + respuesta);
 		} catch (Exception e) {
-			// Manejar excepción
 			e.printStackTrace();
 		}				
 		
 	}
-
 	
 	public static List<Event> getListEvents(String json){
 		
-		JSONArray arregloJson = new JSONArray(json);
-
-		// Nota: creamos la lista para ejemplos ilustrativos, no es necesaria
+		JSONArray jsonArray = new JSONArray(json);
 		List<Event> list = new ArrayList<>();
-		// Iterar 
-		for (int indice = 0; indice < arregloJson.length(); indice++) {
-		    // Obtener objeto a través del índice
-		    JSONObject posibleEvent = arregloJson.getJSONObject(indice);
 
-		    // Acceder como accedíamos al jsonObject
+		for (int index = 0; index < jsonArray.length(); index++) {
+
+		    JSONObject posibleEvent = jsonArray.getJSONObject(index);
+
 		    String name = posibleEvent.getString("name");
 		    String type = posibleEvent.getString("type");
 		    
 		    String dateTime = posibleEvent.getString("dateTime");
-
-		   
-		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-		    
-		    	
-		    
+		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");	    	    	    
 		    LocalDateTime localdatetime = LocalDateTime.parse(dateTime, formatter);
 		    
 		    LocalDate date = localdatetime.toLocalDate();
 		    LocalTime time = localdatetime.toLocalTime();
-		    
-		   		    
-		    
+		    		   		  
 		    Integer price = posibleEvent.getInt("price");		    
 		    String location = posibleEvent.getString("location");
 		    String description = posibleEvent.getString("description");
-		   
-		    // Luego de eso podemos crear la clase y obtener los beneficios
-		    // de la POO o usar los datos como nos plazca
 		    
-		    Event event = new Event(name, type, date, time,price, location, description);
+		    Event event = new Event(name, type, date, time, price, location, description);
 
-		   
-		    // Agregar a la lista, solo para ilustrar
 		    list.add(event);		
 		}
 		
 		return list;
 	}
 	
-	public static String peticionHttpGet(String urlParaVisitar) throws Exception {
-		// Esto es lo que vamos a devolver
-		StringBuilder resultado = new StringBuilder();
-		// Crear un objeto de tipo URL
-		URL url = new URL(urlParaVisitar);
-
-		// Abrir la conexión e indicar que será de tipo GET
-		HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+	public static String httpGet(String url) throws Exception {
+		
+		StringBuilder result = new StringBuilder();
+		
+		URL newUrl = new URL(url);
+	
+		HttpURLConnection conexion = (HttpURLConnection) newUrl.openConnection();
 		conexion.setRequestMethod("GET");
-		// Búferes para leer
+		
 		BufferedReader rd = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
 		String linea;
-		// Mientras el BufferedReader se pueda leer, agregar contenido a resultado
+		
 		while ((linea = rd.readLine()) != null) {
-			resultado.append(linea);
+			result.append(linea);
 		}
-		// Cerrar el BufferedReader
+		
 		rd.close();
-		// Regresar resultado, pero como cadena, no como StringBuilder
-		return resultado.toString();
+		return result.toString();
 	}
 }
